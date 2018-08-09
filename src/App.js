@@ -15,7 +15,7 @@ class BooksApp extends React.Component {
 
   }
 
-  componentDidMount() {
+  load = () => {
 
     BooksAPI.getAll().then((books) => {
 
@@ -24,9 +24,15 @@ class BooksApp extends React.Component {
     })
   }
 
+  componentDidMount() {
+
+    this.load()
+
+  }
+
   updateQuery = (query) => {
 
-    this.setState({ query: query.trim() })
+    this.setState({ query })
 
     if (query) {
 
@@ -54,15 +60,8 @@ class BooksApp extends React.Component {
 
     BooksAPI.update(book, shelf)
 
-    if (!this.state.books.includes(book)) {
+    this.load()
 
-      this.setState((books) => (this.state.books.push(book)))
-
-    } else {
-
-      this.setState(this.state.books)
-
-    }
   }
 
   render() {
